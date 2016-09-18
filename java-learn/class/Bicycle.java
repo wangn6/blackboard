@@ -28,5 +28,8 @@ public class Bicycle
 	{
 		Bicycle bike = new Bicycle(1,2,3);
 		bike.print();
+		bike.setGear(100);
+		bike.speed = 10;
+		bike.print();
 	}
 }
