@@ -19,12 +19,34 @@ module RestClient
             build_name = ENV['BUILDNAME']
             class_name = ENV['CLASSNAME']
             test_name = ENV['TESTNAME']
+            _payload = ENV['PAYLOAD'].nil? == true ? {} : JSON.parse(ENV['PAYLOAD'])
             duration = end_time - start_time
-            
+
             ESUtils.initialize_es_index
-            ESUtils.insert_record task_name, build_name, class_name, test_name, duration, start_time, end_time, uri, method, processed_headers, payload
+            ESUtils.insert_record task_name, build_name, class_name, test_name, duration, start_time, end_time, uri, method, processed_headers, _payload
         ensure
             payload.close if payload
+        end
+    end
+
+    module Payload
+        extend self
+
+        def generate(params)
+          if params.is_a?(String)
+            ENV['PAYLOAD'] = params
+            Base.new(params)
+          elsif params.is_a?(Hash)
+            if params.delete(:multipart) == true || has_file?(params)
+              Multipart.new(params)
+            else
+              UrlEncoded.new(params)
+            end
+          elsif params.respond_to?(:read)
+            Streamed.new(params)
+          else
+            nil
+          end
         end
     end
 end

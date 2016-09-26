@@ -35,7 +35,7 @@ module ESUtils
 
     def self.get_es_client
         if @@es_client.nil?
-            @@es_client = Elasticsearch::Client.new host: @@es_host, log: true
+            @@es_client = Elasticsearch::Client.new host: @@es_host, log: false
         end
         @@es_client
     end
