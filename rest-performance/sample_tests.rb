@@ -1,6 +1,10 @@
+require 'minitest'
+require 'rest-client'
+require 'minitest/autorun'
 require_relative 'test_base.rb'
 
 class SampleCases4Demo < TestBase
+    
     def test_example_01
         RestClient.get 'http://localhost:9200/performance/execution/_search?size=100'
     end
@@ -17,4 +21,5 @@ class SampleCases4Demo < TestBase
         }
         RestClient.post 'http://localhost:9200/performance/execution/_search', body.to_json, {content_type: :json, accept: :json}
     end
+
 end

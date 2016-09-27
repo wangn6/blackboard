@@ -1,6 +1,8 @@
 require 'elasticsearch'
 require 'securerandom'
+
 module ESUtils
+
     @@es_host = 'localhost'
     @@index_name = 'performance'
     @@index_settings = '{
@@ -26,7 +28,6 @@ module ESUtils
                     "response_code" : { "type" : "string", "index" : "not_analyzed" },
                     "response" : { "type" : "object"},
                     "comments" : { "type" : "string", "index" : "not_analyzed" }
-                
                 }
             }
         }
@@ -35,7 +36,7 @@ module ESUtils
 
     def self.get_es_client
         if @@es_client.nil?
-            @@es_client = Elasticsearch::Client.new host: @@es_host, log: false
+            @@es_client = Elasticsearch::Client.new host: @@es_host, log: true
         end
         @@es_client
     end
@@ -84,3 +85,4 @@ module ESUtils
 
     end 
 end
+#ESUtils.initialize_es_index
