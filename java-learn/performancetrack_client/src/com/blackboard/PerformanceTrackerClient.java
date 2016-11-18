@@ -5,6 +5,7 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+
 import org.apache.jmeter.assertions.AssertionResult;
 import org.apache.jmeter.config.Arguments;
 import org.apache.jmeter.samplers.SampleResult;
@@ -13,6 +14,7 @@ import org.apache.jmeter.visualizers.backend.BackendListenerContext;
 import org.apache.jorphan.logging.LoggingManager;
 import org.apache.log.Logger;
 
+import org.elasticsearch.action.bulk.BulkRequestBuilder;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
@@ -22,8 +24,10 @@ import org.elasticsearch.common.transport.InetSocketTransportAddress;
  * Created by nwang on 01/11/2016.
  */
 public class PerformanceTrackerClient extends
-        AbstractBackendListenerClient {
+        AbstractBackendListenerClient implements Runnable {
     private static TransportClient client;
+    private static List<Map<String, Object>> jsonObjects = new ArrayList<Map<String, Object>>();
+    private final static int MaxiumBulkSize = 20;
     private String indexName;
     private String dateTimeAppendFormat;
     private String sampleType;
@@ -40,8 +44,8 @@ public class PerformanceTrackerClient extends
     private static final String VALUE_DELIMITER = "=";
     private static final Logger LOGGER = LoggingManager.getLoggerForClass();
 
-
-    public static void main(String[] args) {
+    @Override
+    public void run() {
 
         try {
             Settings.Builder builder = Settings.settingsBuilder();
@@ -49,9 +53,7 @@ public class PerformanceTrackerClient extends
             Settings settings = builder.build();
 
             client = TransportClient.builder().settings(settings).build();
-        }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
             LOGGER.info("Exeption occured when initialize the test");
             LOGGER.info(ex.getMessage());
             LOGGER.info(ex.getStackTrace().toString());
@@ -65,9 +67,6 @@ public class PerformanceTrackerClient extends
     @Override
     public void handleSampleResults(List<SampleResult> results,
                                     BackendListenerContext context) {
-        LOGGER.info("handleSampleResults : " + results.size());
-
-
         String indexNameToUse = indexName;
         for (SampleResult result : results) {
             Map<String, Object> jsonObject = getMap(result);
@@ -75,9 +74,21 @@ public class PerformanceTrackerClient extends
                 SimpleDateFormat sdf = new SimpleDateFormat(dateTimeAppendFormat);
                 indexNameToUse = indexName + sdf.format(jsonObject.get(TIMESTAMP));
             }
-            client.prepareIndex(indexNameToUse, sampleType).setSource(jsonObject).execute().actionGet();
+            saveSampleResult2ElasticSearch(indexNameToUse, jsonObject);
         }
+    }
 
+    private synchronized void saveSampleResult2ElasticSearch(String indexName, Map<String, Object> jsonObject) {
+        jsonObjects.add(jsonObject);
+        if (jsonObjects.size() >= MaxiumBulkSize) {
+            LOGGER.info("Save sample results to ES : " + jsonObjects.size());
+            BulkRequestBuilder bulkBuilder = client.prepareBulk();
+            for (Map<String, Object> obj : jsonObjects) {
+                bulkBuilder.add(client.prepareIndex(indexName, sampleType).setSource(obj));
+            }
+            bulkBuilder.execute().actionGet();
+            jsonObjects.clear();
+        }
     }
 
     private Map<String, Object> getMap(SampleResult result) {
@@ -88,22 +99,19 @@ public class PerformanceTrackerClient extends
             String[] varNameAndValue = sampleLabels[i].split(VALUE_DELIMITER);
             map.put(varNameAndValue[0], varNameAndValue[1]);
         }
-
         String host = "";
         String path = "";
         String query = "";
         URL url = result.getURL();
-        if(url != null) {
+        if (url != null) {
             host = url.getHost();
             path = url.getPath();
             query = url.getQuery();
-        }
-        else
-        {
-            LOGGER.info("The url is null: " + result.getSampleLabel() );
+        } else {
+            LOGGER.info("The url is null: " + result.getSampleLabel());
         }
         HashMap<String, String> querys = new HashMap<String, String>();
-        if(query != null && query.length()>0) {
+        if (query != null && query.length() > 0) {
             for (String q : query.split("&")) {
                 String[] keyValue = q.split("=");
                 String key = "";
@@ -121,10 +129,7 @@ public class PerformanceTrackerClient extends
             }
         }
 
-
-        //LOGGER.info("Host:" + host + " path:" + path + " query:" + query);
         String requestHeaders = result.getRequestHeaders();
-        //LOGGER.info("Headers: " + requestHeaders);
         map.put("ResponseTime", result.getTime());
         map.put("ElapsedTime", result.getTime());
         map.put("ResponseCode", result.getResponseCode());
@@ -132,7 +137,6 @@ public class PerformanceTrackerClient extends
         map.put("ThreadName", result.getThreadName());
         map.put("DataType", result.getDataType());
         map.put("Success", String.valueOf(result.isSuccessful()));
-        //map.put("FailureMessage", result.get);
         map.put("GrpThreads", result.getGroupThreads());
         map.put("AllThreads", result.getAllThreads());
         map.put("URL", result.getUrlAsString());
@@ -184,10 +188,10 @@ public class PerformanceTrackerClient extends
 
         LOGGER.info("SetupTest");
 
+
         Iterator<String> iterator = context.getParameterNamesIterator();
 
-        while(iterator.hasNext())
-        {
+        while (iterator.hasNext()) {
             String paraName = iterator.next();
             Object paraValue = context.getParameter(paraName);
             LOGGER.info(paraName + ":" + paraValue.toString());
@@ -213,9 +217,7 @@ public class PerformanceTrackerClient extends
             Settings settings = builder.build();
 
             client = TransportClient.builder().settings(settings).build();
-        }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
             LOGGER.info("Exeption occured when initialize the test");
             LOGGER.info(ex.getMessage());
             LOGGER.info(ex.getStackTrace().toString());
@@ -245,7 +247,7 @@ public class PerformanceTrackerClient extends
         super.setupTest(context);
     }
 
-    @Override`
+    @Override
     public Arguments getDefaultParameters() {
         LOGGER.info("getDefaultParameters");
         Arguments arguments = new Arguments();
@@ -259,19 +261,25 @@ public class PerformanceTrackerClient extends
         arguments.addArgument("machineName", "${__machineName()}");
         arguments.addArgument("testPlanName", "${__TestPlanName()}");
         arguments.addArgument("mbaasBuild", "123");
-        arguments.addArgument("b2Build","123");
-        arguments.addArgument("otherParameter","other");
+        arguments.addArgument("b2Build", "123");
+        arguments.addArgument("otherParameter", "other");
 
-        //arguments.addArgument("summaryOnly", "true");
-        //arguments.addArgument("samplersList", "");
         return arguments;
-
 
     }
 
     @Override
     public void teardownTest(BackendListenerContext context) throws Exception {
         LOGGER.info("teardownTest");
+        if (jsonObjects.size() > 0) {
+            LOGGER.info("Save sample results to ES : " + jsonObjects.size());
+            BulkRequestBuilder bulkBuilder = client.prepareBulk();
+            for (Map<String, Object> obj : jsonObjects) {
+                bulkBuilder.add(client.prepareIndex(indexName, sampleType).setSource(obj));
+            }
+            bulkBuilder.execute().actionGet();
+            jsonObjects.clear();
+        }
         client.close();
         super.teardownTest(context);
     }
