@@ -1,11 +1,9 @@
 package com.blackboard;
 
 import java.net.InetSocketAddress;
+import java.net.URL;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.apache.jmeter.assertions.AssertionResult;
 import org.apache.jmeter.config.Arguments;
@@ -31,6 +29,10 @@ public class PerformanceTrackerClient extends
     private String sampleType;
     private String runId;
     private String mBaasBuild;
+    private String machineIP;
+    private String machineName;
+    private String testPlanName;
+
     private long offset;
     private static final int DEFAULT_ELASTICSEARCH_PORT = 9300;
     private static final String TIMESTAMP = "timestamp";
@@ -65,6 +67,7 @@ public class PerformanceTrackerClient extends
                                     BackendListenerContext context) {
         LOGGER.info("handleSampleResults : " + results.size());
 
+
         String indexNameToUse = indexName;
         for (SampleResult result : results) {
             Map<String, Object> jsonObject = getMap(result);
@@ -86,6 +89,42 @@ public class PerformanceTrackerClient extends
             map.put(varNameAndValue[0], varNameAndValue[1]);
         }
 
+        String host = "";
+        String path = "";
+        String query = "";
+        URL url = result.getURL();
+        if(url != null) {
+            host = url.getHost();
+            path = url.getPath();
+            query = url.getQuery();
+        }
+        else
+        {
+            LOGGER.info("The url is null: " + result.getSampleLabel() );
+        }
+        HashMap<String, String> querys = new HashMap<String, String>();
+        if(query != null && query.length()>0) {
+            for (String q : query.split("&")) {
+                String[] keyValue = q.split("=");
+                String key = "";
+                String value = "";
+                if (keyValue.length == 1) {
+                    key = keyValue[0];
+                } else if (keyValue.length == 2) {
+                    key = keyValue[0];
+                    value = keyValue[1];
+                }
+
+                if (!key.isEmpty()) {
+                    querys.put(key, value);
+                }
+            }
+        }
+
+
+        //LOGGER.info("Host:" + host + " path:" + path + " query:" + query);
+        String requestHeaders = result.getRequestHeaders();
+        //LOGGER.info("Headers: " + requestHeaders);
         map.put("ResponseTime", result.getTime());
         map.put("ElapsedTime", result.getTime());
         map.put("ResponseCode", result.getResponseCode());
@@ -97,6 +136,13 @@ public class PerformanceTrackerClient extends
         map.put("GrpThreads", result.getGroupThreads());
         map.put("AllThreads", result.getAllThreads());
         map.put("URL", result.getUrlAsString());
+
+
+        map.put("Host", host);
+        map.put("Path", path);
+        map.put("Queries", querys);
+
+        map.put("RequestHeaders", requestHeaders);
         map.put("Latency", result.getLatency());
         map.put("ConnectTime", result.getConnectTime());
         map.put("SampleCount", result.getSampleCount());
@@ -104,7 +150,6 @@ public class PerformanceTrackerClient extends
         map.put("Bytes", result.getBytes());
         map.put("BodySize", result.getBodySize());
         map.put("ContentType", result.getContentType());
-        //map.put("HostName", result.get);
         map.put("IdleTime", result.getIdleTime());
         map.put(TIMESTAMP, new Date(result.getTimeStamp()));
         map.put("NormalizedTimestamp", new Date(result.getTimeStamp() - offset));
@@ -112,6 +157,10 @@ public class PerformanceTrackerClient extends
         map.put("EndTime", new Date(result.getEndTime()));
         map.put("RunId", runId);
         map.put("MBaasBuild", mBaasBuild);
+        map.put("MachineIP", machineIP);
+        map.put("MachineName", machineName);
+        map.put("TestPlanName", testPlanName);
+        map.put("SampleLabel", result.getSampleLabel());
         //TODO assertion results
 
         AssertionResult[] assertions = result.getAssertionResults();
@@ -135,7 +184,20 @@ public class PerformanceTrackerClient extends
 
         LOGGER.info("SetupTest");
 
+        Iterator<String> iterator = context.getParameterNamesIterator();
+
+        while(iterator.hasNext())
+        {
+            String paraName = iterator.next();
+            Object paraValue = context.getParameter(paraName);
+            LOGGER.info(paraName + ":" + paraValue.toString());
+        }
+
         String elasticsearchCluster = context.getParameter("elasticsearchCluster");
+
+        machineIP = context.getParameter("machineIP");
+        machineName = context.getParameter("machineName");
+        testPlanName = context.getParameter("testPlanName");
 
         String[] servers = elasticsearchCluster.split(",");
 
@@ -183,16 +245,19 @@ public class PerformanceTrackerClient extends
         super.setupTest(context);
     }
 
-    @Override
+    @Override`
     public Arguments getDefaultParameters() {
         LOGGER.info("getDefaultParameters");
         Arguments arguments = new Arguments();
         arguments.addArgument("elasticsearchCluster", "localhost" + DEFAULT_ELASTICSEARCH_PORT);
         arguments.addArgument("indexName", "jmeter-elasticsearch");
         arguments.addArgument("sampleType", "SampleResult");
-        arguments.addArgument("dateTimeAppendFormat", "-yyyy-MM-DD");
+        arguments.addArgument("dateTimeAppendFormat", "-yyyy-MM-dd");
         arguments.addArgument("normalizedTime", "2015-01-01 00:00:00.000-00:00");
         arguments.addArgument("runId", "${__UUID()}");
+        arguments.addArgument("machineIP", "${__machineIP()}");
+        arguments.addArgument("machineName", "${__machineName()}");
+        arguments.addArgument("testPlanName", "${__TestPlanName()}");
         arguments.addArgument("mbaasBuild", "123");
         arguments.addArgument("b2Build","123");
         arguments.addArgument("otherParameter","other");
