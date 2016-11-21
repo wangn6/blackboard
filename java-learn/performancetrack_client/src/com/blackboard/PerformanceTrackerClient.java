@@ -4,7 +4,7 @@ import java.net.InetSocketAddress;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.*;
-
+import java.net.InetAddress;
 
 import org.apache.jmeter.assertions.AssertionResult;
 import org.apache.jmeter.config.Arguments;
@@ -24,44 +24,114 @@ import org.elasticsearch.common.transport.InetSocketTransportAddress;
  * Created by nwang on 01/11/2016.
  */
 public class PerformanceTrackerClient extends
-        AbstractBackendListenerClient implements Runnable {
+        AbstractBackendListenerClient {
     private static TransportClient client;
     private static List<Map<String, Object>> jsonObjects = new ArrayList<Map<String, Object>>();
-    private final static int MaxiumBulkSize = 20;
+    private final static int MaxiumBulkSize = 50;
     private String indexName;
     private String dateTimeAppendFormat;
     private String sampleType;
     private String runId;
     private String mBaasBuild;
-    private String machineIP;
     private String machineName;
     private String testPlanName;
+    private HashMap<String, String> environmentVariables;
 
     private long offset;
+    private static final String ENVIRONMENT_VARIABLE_PREFIX = "PT_";
     private static final int DEFAULT_ELASTICSEARCH_PORT = 9300;
     private static final String TIMESTAMP = "timestamp";
     private static final String VAR_DELIMITER = "~";
     private static final String VALUE_DELIMITER = "=";
     private static final Logger LOGGER = LoggingManager.getLoggerForClass();
 
+
+
     @Override
-    public void run() {
+    public void setupTest(BackendListenerContext context) throws Exception {
+
+        LOGGER.info("SetupTest");
+
+        Iterator<String> iterator = context.getParameterNamesIterator();
+
+        while (iterator.hasNext()) {
+            String paraName = iterator.next();
+            Object paraValue = context.getParameter(paraName);
+            LOGGER.info(paraName + ":" + paraValue.toString());
+        }
+        environmentVariables = getEnvironmentVariables();
+
+        indexName = context.getParameter("indexName");
+        sampleType = context.getParameter("sampleType");
+        dateTimeAppendFormat = "-yyyy-MM-dd";
+        String elasticsearchCluster = context.getParameter("elasticsearchCluster");
+        String[] servers = elasticsearchCluster.split(",");
+        String normalizedTime = "2011-09-02 20:20:20.000-00:00";
+
+        try
+        {
+            machineName = InetAddress.getLocalHost().getHostName();
+        }
+        catch (Exception ex)
+        {
+            machineName = "unknown";
+        }
+
+
+        testPlanName = getEnvironmentVariable("TestPlan");
+        if(testPlanName.contains("/"))
+        {
+            testPlanName = testPlanName.substring(testPlanName.lastIndexOf('/') + 1);
+        }
+        mBaasBuild = getEnvironmentVariable("MBaasBuild");
+        if(mBaasBuild.isEmpty())
+        {
+            mBaasBuild = context.getParameter("mbaasBuild");
+        }
+        String b2Build = getEnvironmentVariable("B2Build");
+        if(b2Build.isEmpty())
+        {
+            b2Build = context.getParameter("b2Build");
+        }
+
+        runId = getEnvironmentVariable("RunId");
+        if(runId == null || runId.isEmpty())
+        {
+            runId = UUID.randomUUID().toString();
+        }
+
+        if (dateTimeAppendFormat != null && dateTimeAppendFormat.trim().equals("")) {
+            dateTimeAppendFormat = null;
+        }
 
         try {
             Settings.Builder builder = Settings.settingsBuilder();
             builder = builder.put("cluster.name", "elasticsearch");
             Settings settings = builder.build();
-
             client = TransportClient.builder().settings(settings).build();
         } catch (Exception ex) {
             LOGGER.info("Exeption occured when initialize the test");
             LOGGER.info(ex.getMessage());
-            LOGGER.info(ex.getStackTrace().toString());
-            LOGGER.info(ex.getCause().toString());
-            ex.printStackTrace();
         }
-        client.addTransportAddress(new InetSocketTransportAddress(new InetSocketAddress("localhost", 9200)));
 
+        for (String serverPort : servers) {
+            String[] serverAndPort = serverPort.split(":");
+            int port = DEFAULT_ELASTICSEARCH_PORT;
+            if (serverAndPort.length == 2) {
+                port = Integer.parseInt(serverAndPort[1]);
+            }
+            client.addTransportAddress(new InetSocketTransportAddress(new InetSocketAddress(serverAndPort[0], port)));
+        }
+
+        if (normalizedTime != null && normalizedTime.trim().length() > 0) {
+            SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSX");
+            Date d = sdf2.parse(normalizedTime);
+            long normalizedDate = d.getTime();
+            Date now = new Date();
+            offset = now.getTime() - normalizedDate;
+        }
+
+        super.setupTest(context);
     }
 
     @Override
@@ -74,21 +144,66 @@ public class PerformanceTrackerClient extends
                 SimpleDateFormat sdf = new SimpleDateFormat(dateTimeAppendFormat);
                 indexNameToUse = indexName + sdf.format(jsonObject.get(TIMESTAMP));
             }
-            saveSampleResult2ElasticSearch(indexNameToUse, jsonObject);
+            saveSampleResult2ElasticSearch(indexNameToUse, jsonObject, false);
         }
     }
 
-    private synchronized void saveSampleResult2ElasticSearch(String indexName, Map<String, Object> jsonObject) {
-        jsonObjects.add(jsonObject);
-        if (jsonObjects.size() >= MaxiumBulkSize) {
-            LOGGER.info("Save sample results to ES : " + jsonObjects.size());
-            BulkRequestBuilder bulkBuilder = client.prepareBulk();
-            for (Map<String, Object> obj : jsonObjects) {
-                bulkBuilder.add(client.prepareIndex(indexName, sampleType).setSource(obj));
-            }
-            bulkBuilder.execute().actionGet();
-            jsonObjects.clear();
+    @Override
+    public void teardownTest(BackendListenerContext context) throws Exception {
+        LOGGER.info("teardownTest");
+
+        SimpleDateFormat sdf = new SimpleDateFormat(dateTimeAppendFormat);
+        if(jsonObjects.size() > 0) {
+            Map<String, Object> jsonObject = jsonObjects.get(0);
+            String indexNameToUse = indexName + sdf.format(jsonObject.get(TIMESTAMP));
+            saveSampleResult2ElasticSearch(indexNameToUse, null, true);
         }
+        client.close();
+        super.teardownTest(context);
+    }
+
+    @Override
+    public Arguments getDefaultParameters() {
+        LOGGER.info("getDefaultParameters");
+        Arguments arguments = new Arguments();
+        arguments.addArgument("elasticsearchCluster", "nwangmbp.bbbb.net:" + DEFAULT_ELASTICSEARCH_PORT);
+        arguments.addArgument("indexName", "jmeter-elasticsearch");
+        arguments.addArgument("sampleType", "SampleResult");
+        arguments.addArgument("mbaasBuild", "");
+
+        return arguments;
+
+    }
+
+
+    public static void main(String[] args) {
+        Map<String, String> env = System.getenv();
+        for (String envName : env.keySet()) {
+            System.out.format("%s=%s%n",
+                    envName,
+                    env.get(envName));
+        }
+    }
+
+    private String getEnvironmentVariable(String name) {
+        Map<String, String> env = System.getenv();
+        if (name.startsWith(ENVIRONMENT_VARIABLE_PREFIX))
+            return env.getOrDefault(name, "");
+        else
+            return env.getOrDefault(ENVIRONMENT_VARIABLE_PREFIX + name, "");
+    }
+
+    private HashMap<String, String> getEnvironmentVariables()
+    {
+        HashMap<String, String> variables = new HashMap<String, String>();
+        Map<String, String> env = System.getenv();
+        for (String envName : env.keySet()) {
+            if(envName.startsWith(ENVIRONMENT_VARIABLE_PREFIX))
+            {
+                variables.put(envName.replace(ENVIRONMENT_VARIABLE_PREFIX,""), env.get(envName));
+            }
+        }
+        return variables;
     }
 
     private Map<String, Object> getMap(SampleResult result) {
@@ -108,7 +223,7 @@ public class PerformanceTrackerClient extends
             path = url.getPath();
             query = url.getQuery();
         } else {
-            LOGGER.info("The url is null: " + result.getSampleLabel());
+            //LOGGER.info("The url is null: " + result.getSampleLabel());
         }
         HashMap<String, String> querys = new HashMap<String, String>();
         if (query != null && query.length() > 0) {
@@ -140,7 +255,7 @@ public class PerformanceTrackerClient extends
         map.put("GrpThreads", result.getGroupThreads());
         map.put("AllThreads", result.getAllThreads());
         map.put("URL", result.getUrlAsString());
-
+        map.put("EnvironmentVariables", environmentVariables);
 
         map.put("Host", host);
         map.put("Path", path);
@@ -159,13 +274,12 @@ public class PerformanceTrackerClient extends
         map.put("NormalizedTimestamp", new Date(result.getTimeStamp() - offset));
         map.put("StartTime", new Date(result.getStartTime()));
         map.put("EndTime", new Date(result.getEndTime()));
+
+        map.put("Offset", offset);
         map.put("RunId", runId);
         map.put("MBaasBuild", mBaasBuild);
-        map.put("MachineIP", machineIP);
         map.put("MachineName", machineName);
         map.put("TestPlanName", testPlanName);
-        map.put("SampleLabel", result.getSampleLabel());
-        //TODO assertion results
 
         AssertionResult[] assertions = result.getAssertionResults();
         int count = 0;
@@ -183,105 +297,47 @@ public class PerformanceTrackerClient extends
         return map;
     }
 
-    @Override
-    public void setupTest(BackendListenerContext context) throws Exception {
 
-        LOGGER.info("SetupTest");
+    private synchronized void saveSampleResult2ElasticSearch(String indexName, Map<String, Object> jsonObject, boolean forceToSave) {
 
-
-        Iterator<String> iterator = context.getParameterNamesIterator();
-
-        while (iterator.hasNext()) {
-            String paraName = iterator.next();
-            Object paraValue = context.getParameter(paraName);
-            LOGGER.info(paraName + ":" + paraValue.toString());
-        }
-
-        String elasticsearchCluster = context.getParameter("elasticsearchCluster");
-
-        machineIP = context.getParameter("machineIP");
-        machineName = context.getParameter("machineName");
-        testPlanName = context.getParameter("testPlanName");
-
-        String[] servers = elasticsearchCluster.split(",");
-
-        indexName = context.getParameter("indexName");
-        dateTimeAppendFormat = context.getParameter("dateTimeAppendFormat");
-        if (dateTimeAppendFormat != null && dateTimeAppendFormat.trim().equals("")) {
-            dateTimeAppendFormat = null;
-        }
-        sampleType = context.getParameter("sampleType");
-        try {
-            Settings.Builder builder = Settings.settingsBuilder();
-            builder = builder.put("cluster.name", "elasticsearch");
-            Settings settings = builder.build();
-
-            client = TransportClient.builder().settings(settings).build();
-        } catch (Exception ex) {
-            LOGGER.info("Exeption occured when initialize the test");
-            LOGGER.info(ex.getMessage());
-            LOGGER.info(ex.getStackTrace().toString());
-            LOGGER.info(ex.getCause().toString());
-            ex.printStackTrace();
-        }
-
-        for (String serverPort : servers) {
-            String[] serverAndPort = serverPort.split(":");
-            int port = DEFAULT_ELASTICSEARCH_PORT;
-            if (serverAndPort.length == 2) {
-                port = Integer.parseInt(serverAndPort[1]);
+        if (!forceToSave )
+        {
+            jsonObjects.add(jsonObject);
+            if( jsonObjects.size() >= MaxiumBulkSize) {
+                LOGGER.info("Save sample results to ES : " + jsonObjects.size());
+                BulkRequestBuilder bulkBuilder = client.prepareBulk();
+                for (Map<String, Object> obj : jsonObjects) {
+                    bulkBuilder.add(client.prepareIndex(indexName, sampleType).setSource(obj));
+                }
+                try {
+                    bulkBuilder.get();
+                    bulkBuilder.setRefresh(true);
+                } catch (Exception ex) {
+                    LOGGER.info(ex.getMessage());
+                }finally {
+                    jsonObjects.clear();
+                }
             }
-            client.addTransportAddress(new InetSocketTransportAddress(new InetSocketAddress(serverAndPort[0], port)));
         }
-        String normalizedTime = context.getParameter("normalizedTime");
-        if (normalizedTime != null && normalizedTime.trim().length() > 0) {
-            SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSX");
-            Date d = sdf2.parse(normalizedTime);
-            long normalizedDate = d.getTime();
-            Date now = new Date();
-            offset = now.getTime() - normalizedDate;
-        }
-        runId = context.getParameter("runId");
-        mBaasBuild = context.getParameter("mbaasBuild");
-
-        super.setupTest(context);
-    }
-
-    @Override
-    public Arguments getDefaultParameters() {
-        LOGGER.info("getDefaultParameters");
-        Arguments arguments = new Arguments();
-        arguments.addArgument("elasticsearchCluster", "localhost" + DEFAULT_ELASTICSEARCH_PORT);
-        arguments.addArgument("indexName", "jmeter-elasticsearch");
-        arguments.addArgument("sampleType", "SampleResult");
-        arguments.addArgument("dateTimeAppendFormat", "-yyyy-MM-dd");
-        arguments.addArgument("normalizedTime", "2015-01-01 00:00:00.000-00:00");
-        arguments.addArgument("runId", "${__UUID()}");
-        arguments.addArgument("machineIP", "${__machineIP()}");
-        arguments.addArgument("machineName", "${__machineName()}");
-        arguments.addArgument("testPlanName", "${__TestPlanName()}");
-        arguments.addArgument("mbaasBuild", "123");
-        arguments.addArgument("b2Build", "123");
-        arguments.addArgument("otherParameter", "other");
-
-        return arguments;
-
-    }
-
-    @Override
-    public void teardownTest(BackendListenerContext context) throws Exception {
-        LOGGER.info("teardownTest");
-        if (jsonObjects.size() > 0) {
+        else
+        {
             LOGGER.info("Save sample results to ES : " + jsonObjects.size());
             BulkRequestBuilder bulkBuilder = client.prepareBulk();
+
             for (Map<String, Object> obj : jsonObjects) {
                 bulkBuilder.add(client.prepareIndex(indexName, sampleType).setSource(obj));
             }
-            bulkBuilder.execute().actionGet();
-            jsonObjects.clear();
-        }
-        client.close();
-        super.teardownTest(context);
-    }
+            try {
+                bulkBuilder.get();
+                bulkBuilder.setRefresh(true);
+            }catch (Exception ex)
+            {
+                LOGGER.info(ex.getMessage());
+            }
+            finally {
+                jsonObjects.clear();
+            }
 
+        }
+    }
 }
