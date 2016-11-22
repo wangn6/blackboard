@@ -5,3 +5,4 @@
     </elementProp>
   <stringProp name="classname">com.blackboard.PerformanceTrackerClient</stringProp>
 </BackendListener>
+<hashTree/>
