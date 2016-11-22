@@ -5,7 +5,7 @@ export PT_MBaasBuild='200'
 export PT_B2Build='1.6.3'
 
 export PT_RunId="$( python -c 'import uuid; print str(uuid.uuid1())' )"
-export PT_TestPlan=/Users/nwang/works/2016/performance_tracker/pepstandalone_cluster.jmx
+export PT_TestPlan=java-learn/performance_tracker/pepstandalone_cluster.jmx
 
 remote_servers=nwang.local:4000
 jmeter_local_executor=/Users/nwang/servers/apache-jmeter-3.0-server/bin/jmeter
