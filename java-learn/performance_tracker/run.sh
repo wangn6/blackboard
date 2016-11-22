@@ -30,7 +30,8 @@ function start_jmeter_controller_remotely
 
 function start_jmeter_controller_locally
 {
-	newTestPlan=$( ruby ./ingest_backend_listener.rb "${PT_TestPlan}" )
+	abspath=$(cd ${0%/*} && echo $PWD)
+	newTestPlan=$( ruby "${abspath}/ingest_backend_listener.rb" "${PT_TestPlan}" )
 	echo ${newTestPlan}
 	"${jmeter_local_executor}" -n -t "${newTestPlan}" -R "${remote_servers}"
 }
