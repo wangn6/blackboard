@@ -44,9 +44,9 @@ public class PerformanceTrackerClient extends
     private static final String VAR_DELIMITER = "~";
     private static final String VALUE_DELIMITER = "=";
     private static final Logger LOGGER = LoggingManager.getLoggerForClass();
-
-
-
+    private static final String ELASTICSEARTCH_HOST = "nwang.local";
+    private static final String DEFAULT_INDEX_NAME = "jmeter-elasticsearch";
+    private static final String DEFAULT_DOC_TYPE = "SampleResult";
     @Override
     public void setupTest(BackendListenerContext context) throws Exception {
 
@@ -59,12 +59,13 @@ public class PerformanceTrackerClient extends
             Object paraValue = context.getParameter(paraName);
             LOGGER.info(paraName + ":" + paraValue.toString());
         }
-        environmentVariables = getEnvironmentVariables();
+        environmentVariables = getEnvironmentVariables(context);
 
-        indexName = context.getParameter("indexName");
-        sampleType = context.getParameter("sampleType");
+        indexName = DEFAULT_INDEX_NAME;
+        sampleType = DEFAULT_DOC_TYPE;
         dateTimeAppendFormat = "-yyyy-MM-dd";
-        String elasticsearchCluster = context.getParameter("elasticsearchCluster");
+
+        String elasticsearchCluster = ELASTICSEARTCH_HOST + ":" + DEFAULT_ELASTICSEARCH_PORT;
         String[] servers = elasticsearchCluster.split(",");
         String normalizedTime = "2011-09-02 20:20:20.000-00:00";
 
@@ -78,23 +79,20 @@ public class PerformanceTrackerClient extends
         }
 
 
-        testPlanName = getEnvironmentVariable("TestPlan");
+        testPlanName = getEnvironmentVariable("TestPlan", context);
         if(testPlanName.contains("/"))
         {
             testPlanName = testPlanName.substring(testPlanName.lastIndexOf('/') + 1);
         }
-        mBaasBuild = getEnvironmentVariable("MBaasBuild");
-        if(mBaasBuild.isEmpty())
-        {
-            mBaasBuild = context.getParameter("mbaasBuild");
-        }
-        String b2Build = getEnvironmentVariable("B2Build");
+
+        mBaasBuild = getEnvironmentVariable("MBaasBuild", context);
+        String b2Build = getEnvironmentVariable("B2Build", context);
         if(b2Build.isEmpty())
         {
-            b2Build = context.getParameter("b2Build");
+            b2Build = context.getParameter("B2Build");
         }
 
-        runId = getEnvironmentVariable("RunId");
+        runId = getEnvironmentVariable("RunId",context);
         if(runId == null || runId.isEmpty())
         {
             runId = UUID.randomUUID().toString();
@@ -166,11 +164,9 @@ public class PerformanceTrackerClient extends
     public Arguments getDefaultParameters() {
         LOGGER.info("getDefaultParameters");
         Arguments arguments = new Arguments();
-        arguments.addArgument("elasticsearchCluster", "nwangmbp.bbbb.net:" + DEFAULT_ELASTICSEARCH_PORT);
-        arguments.addArgument("indexName", "jmeter-elasticsearch");
-        arguments.addArgument("sampleType", "SampleResult");
-        arguments.addArgument("mbaasBuild", "");
-
+        arguments.addArgument("TestPlan", "${__TestPlanName}");
+        arguments.addArgument("MBaasBuild", "");
+        arguments.addArgument("B2Build", "");
         return arguments;
 
     }
@@ -185,15 +181,24 @@ public class PerformanceTrackerClient extends
         }
     }
 
-    private String getEnvironmentVariable(String name) {
+    private String getEnvironmentVariable(String name, BackendListenerContext context) {
         Map<String, String> env = System.getenv();
-        if (name.startsWith(ENVIRONMENT_VARIABLE_PREFIX))
-            return env.getOrDefault(name, "");
-        else
-            return env.getOrDefault(ENVIRONMENT_VARIABLE_PREFIX + name, "");
+        String value = "";
+        if (name.startsWith(ENVIRONMENT_VARIABLE_PREFIX)) {
+            value = env.getOrDefault(name, "");
+
+        }
+        else {
+            value = env.getOrDefault(ENVIRONMENT_VARIABLE_PREFIX + name, "");
+        }
+        if(value.isEmpty())
+        {
+            value = context.getParameter(name);
+        }
+        return value;
     }
 
-    private HashMap<String, String> getEnvironmentVariables()
+    private HashMap<String, String> getEnvironmentVariables(BackendListenerContext context)
     {
         HashMap<String, String> variables = new HashMap<String, String>();
         Map<String, String> env = System.getenv();
@@ -201,6 +206,17 @@ public class PerformanceTrackerClient extends
             if(envName.startsWith(ENVIRONMENT_VARIABLE_PREFIX))
             {
                 variables.put(envName.replace(ENVIRONMENT_VARIABLE_PREFIX,""), env.get(envName));
+            }
+        }
+
+        Iterator<String> iterator = context.getParameterNamesIterator();
+        while (iterator.hasNext()) {
+            String paraName = iterator.next();
+            String paraValue = context.getParameter(paraName);
+            if(paraValue.startsWith("${") && paraName.endsWith("}"))//not evaluated variable, skip it
+            {}
+            else {
+                variables.put(paraName, paraValue);
             }
         }
         return variables;
