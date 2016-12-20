@@ -3,48 +3,65 @@
     <output-path>$PROJECT_DIR$/out/artifacts/performancetrack_client_jar</output-path>
     <root id="archive" name="performancetrack_client.jar">
       <element id="module-output" name="performancetrack_client" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/lib/logkit-1.2.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$USER_HOME$/servers/apache-jmeter-3.0/lib/ext/ApacheJMeter_core.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$USER_HOME$/servers/apache-jmeter-3.0/lib/ext/ApacheJMeter_components.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$USER_HOME$/servers/apache-jmeter-3.0/lib/avalon-framework-4.1.4.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$USER_HOME$/servers/elasticsearch-2.4.1/lib/guava-18.0.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$USER_HOME$/servers/elasticsearch-2.4.1/lib/elasticsearch-2.4.1.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$USER_HOME$/servers/apache-jmeter-3.0/lib/jorphan.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$USER_HOME$/servers/elasticsearch-2.4.1/lib/lucene-core-5.5.2.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$USER_HOME$/servers/elasticsearch-2.4.1/lib/jsr166e-1.1.0.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$USER_HOME$/servers/elasticsearch-2.4.1/lib/joda-convert-1.2.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$USER_HOME$/servers/elasticsearch-2.4.1/lib/joda-time-2.9.4.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$USER_HOME$/servers/elasticsearch-2.4.1/lib/apache-log4j-extras-1.2.17.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$USER_HOME$/servers/elasticsearch-2.4.1/lib/commons-cli-1.3.1.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$USER_HOME$/servers/elasticsearch-2.4.1/lib/compiler-0.8.13.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$USER_HOME$/servers/elasticsearch-2.4.1/lib/compress-lzf-1.0.2.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$USER_HOME$/servers/elasticsearch-2.4.1/lib/HdrHistogram-2.1.6.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$USER_HOME$/servers/elasticsearch-2.4.1/lib/hppc-0.7.1.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$USER_HOME$/servers/elasticsearch-2.4.1/lib/jackson-core-2.8.1.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$USER_HOME$/servers/elasticsearch-2.4.1/lib/jackson-dataformat-cbor-2.8.1.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$USER_HOME$/servers/elasticsearch-2.4.1/lib/jackson-dataformat-smile-2.8.1.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$USER_HOME$/servers/elasticsearch-2.4.1/lib/jackson-dataformat-yaml-2.8.1.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$USER_HOME$/servers/elasticsearch-2.4.1/lib/jna-4.1.0.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$USER_HOME$/servers/elasticsearch-2.4.1/lib/jts-1.13.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$USER_HOME$/servers/elasticsearch-2.4.1/lib/log4j-1.2.17.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$USER_HOME$/servers/elasticsearch-2.4.1/lib/lucene-analyzers-common-5.5.2.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$USER_HOME$/servers/elasticsearch-2.4.1/lib/lucene-backward-codecs-5.5.2.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$USER_HOME$/servers/elasticsearch-2.4.1/lib/lucene-grouping-5.5.2.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$USER_HOME$/servers/elasticsearch-2.4.1/lib/lucene-highlighter-5.5.2.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$USER_HOME$/servers/elasticsearch-2.4.1/lib/lucene-join-5.5.2.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$USER_HOME$/servers/elasticsearch-2.4.1/lib/lucene-memory-5.5.2.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$USER_HOME$/servers/elasticsearch-2.4.1/lib/lucene-misc-5.5.2.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$USER_HOME$/servers/elasticsearch-2.4.1/lib/lucene-queries-5.5.2.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$USER_HOME$/servers/elasticsearch-2.4.1/lib/lucene-queryparser-5.5.2.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$USER_HOME$/servers/elasticsearch-2.4.1/lib/lucene-sandbox-5.5.2.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$USER_HOME$/servers/elasticsearch-2.4.1/lib/lucene-spatial-5.5.2.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$USER_HOME$/servers/elasticsearch-2.4.1/lib/lucene-spatial3d-5.5.2.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$USER_HOME$/servers/elasticsearch-2.4.1/lib/lucene-suggest-5.5.2.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$USER_HOME$/servers/elasticsearch-2.4.1/lib/netty-3.10.6.Final.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$USER_HOME$/servers/elasticsearch-2.4.1/lib/securesm-1.0.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$USER_HOME$/servers/elasticsearch-2.4.1/lib/snakeyaml-1.15.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$USER_HOME$/servers/elasticsearch-2.4.1/lib/spatial4j-0.5.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$USER_HOME$/servers/elasticsearch-2.4.1/lib/t-digest-3.0.jar" path-in-jar="/" />
+      <element id="file-copy" path="$USER_HOME$/servers/elasticsearch-5.1.1/lib/elasticsearch-5.1.1.jar" />
+      <element id="file-copy" path="$USER_HOME$/servers/elasticsearch-5.1.1/lib/HdrHistogram-2.1.6.jar" />
+      <element id="file-copy" path="$USER_HOME$/servers/elasticsearch-5.1.1/lib/hppc-0.7.1.jar" />
+      <element id="file-copy" path="$USER_HOME$/servers/elasticsearch-5.1.1/lib/jackson-core-2.8.1.jar" />
+      <element id="file-copy" path="$USER_HOME$/servers/elasticsearch-5.1.1/lib/jackson-dataformat-cbor-2.8.1.jar" />
+      <element id="file-copy" path="$USER_HOME$/servers/elasticsearch-5.1.1/lib/jackson-dataformat-smile-2.8.1.jar" />
+      <element id="file-copy" path="$USER_HOME$/servers/elasticsearch-5.1.1/lib/jackson-dataformat-yaml-2.8.1.jar" />
+      <element id="file-copy" path="$USER_HOME$/servers/elasticsearch-5.1.1/lib/jna-4.2.2.jar" />
+      <element id="file-copy" path="$USER_HOME$/servers/elasticsearch-5.1.1/lib/joda-time-2.9.5.jar" />
+      <element id="file-copy" path="$USER_HOME$/servers/elasticsearch-5.1.1/lib/jopt-simple-5.0.2.jar" />
+      <element id="file-copy" path="$USER_HOME$/servers/elasticsearch-5.1.1/lib/jts-1.13.jar" />
+      <element id="file-copy" path="$USER_HOME$/servers/elasticsearch-5.1.1/lib/log4j-1.2-api-2.7.jar" />
+      <element id="file-copy" path="$USER_HOME$/servers/elasticsearch-5.1.1/lib/log4j-api-2.7.jar" />
+      <element id="file-copy" path="$USER_HOME$/servers/elasticsearch-5.1.1/lib/log4j-core-2.7.jar" />
+      <element id="file-copy" path="$USER_HOME$/servers/elasticsearch-5.1.1/lib/lucene-analyzers-common-6.3.0.jar" />
+      <element id="file-copy" path="$USER_HOME$/servers/elasticsearch-5.1.1/lib/lucene-backward-codecs-6.3.0.jar" />
+      <element id="file-copy" path="$USER_HOME$/servers/elasticsearch-5.1.1/lib/lucene-core-6.3.0.jar" />
+      <element id="file-copy" path="$USER_HOME$/servers/elasticsearch-5.1.1/lib/lucene-grouping-6.3.0.jar" />
+      <element id="file-copy" path="$USER_HOME$/servers/elasticsearch-5.1.1/lib/lucene-highlighter-6.3.0.jar" />
+      <element id="file-copy" path="$USER_HOME$/servers/elasticsearch-5.1.1/lib/lucene-join-6.3.0.jar" />
+      <element id="file-copy" path="$USER_HOME$/servers/elasticsearch-5.1.1/lib/lucene-memory-6.3.0.jar" />
+      <element id="file-copy" path="$USER_HOME$/servers/elasticsearch-5.1.1/lib/lucene-misc-6.3.0.jar" />
+      <element id="file-copy" path="$USER_HOME$/servers/elasticsearch-5.1.1/lib/lucene-queries-6.3.0.jar" />
+      <element id="file-copy" path="$USER_HOME$/servers/elasticsearch-5.1.1/lib/lucene-queryparser-6.3.0.jar" />
+      <element id="file-copy" path="$USER_HOME$/servers/elasticsearch-5.1.1/lib/lucene-sandbox-6.3.0.jar" />
+      <element id="file-copy" path="$USER_HOME$/servers/elasticsearch-5.1.1/lib/lucene-spatial-6.3.0.jar" />
+      <element id="file-copy" path="$USER_HOME$/servers/elasticsearch-5.1.1/lib/lucene-spatial-extras-6.3.0.jar" />
+      <element id="file-copy" path="$USER_HOME$/servers/elasticsearch-5.1.1/lib/lucene-spatial3d-6.3.0.jar" />
+      <element id="file-copy" path="$USER_HOME$/servers/elasticsearch-5.1.1/lib/lucene-suggest-6.3.0.jar" />
+      <element id="file-copy" path="$USER_HOME$/servers/elasticsearch-5.1.1/lib/securesm-1.1.jar" />
+      <element id="file-copy" path="$USER_HOME$/servers/elasticsearch-5.1.1/lib/snakeyaml-1.15.jar" />
+      <element id="file-copy" path="$USER_HOME$/servers/elasticsearch-5.1.1/lib/spatial4j-0.6.jar" />
+      <element id="file-copy" path="$USER_HOME$/servers/elasticsearch-5.1.1/lib/t-digest-3.0.jar" />
+      <element id="file-copy" path="$USER_HOME$/servers/elasticsearch-5.1.1/modules/transport-netty4/netty-buffer-4.1.6.Final.jar" />
+      <element id="file-copy" path="$USER_HOME$/servers/elasticsearch-5.1.1/modules/transport-netty4/netty-codec-4.1.6.Final.jar" />
+      <element id="file-copy" path="$USER_HOME$/servers/elasticsearch-5.1.1/modules/transport-netty4/netty-codec-http-4.1.6.Final.jar" />
+      <element id="file-copy" path="$USER_HOME$/servers/elasticsearch-5.1.1/modules/transport-netty4/netty-common-4.1.6.Final.jar" />
+      <element id="file-copy" path="$USER_HOME$/servers/elasticsearch-5.1.1/modules/transport-netty4/netty-handler-4.1.6.Final.jar" />
+      <element id="file-copy" path="$USER_HOME$/servers/elasticsearch-5.1.1/modules/transport-netty4/netty-resolver-4.1.6.Final.jar" />
+      <element id="file-copy" path="$USER_HOME$/servers/elasticsearch-5.1.1/modules/transport-netty4/netty-transport-4.1.6.Final.jar" />
+      <element id="file-copy" path="$USER_HOME$/servers/elasticsearch-5.1.1/modules/transport-netty4/transport-netty4-5.1.1.jar" />
+      <element id="file-copy" path="$USER_HOME$/servers/elasticsearch-5.1.1/modules/transport-netty3/netty-3.10.6.Final.jar" />
+      <element id="file-copy" path="$USER_HOME$/servers/elasticsearch-5.1.1/modules/transport-netty3/transport-netty3-5.1.1.jar" />
+      <element id="file-copy" path="$USER_HOME$/servers/elasticsearch-5.1.1/modules/reindex/commons-codec-1.10.jar" />
+      <element id="file-copy" path="$USER_HOME$/servers/elasticsearch-5.1.1/modules/reindex/commons-logging-1.1.3.jar" />
+      <element id="file-copy" path="$USER_HOME$/servers/elasticsearch-5.1.1/modules/reindex/httpasyncclient-4.1.2.jar" />
+      <element id="file-copy" path="$USER_HOME$/servers/elasticsearch-5.1.1/modules/reindex/httpclient-4.5.2.jar" />
+      <element id="file-copy" path="$USER_HOME$/servers/elasticsearch-5.1.1/modules/reindex/httpcore-4.4.5.jar" />
+      <element id="file-copy" path="$USER_HOME$/servers/elasticsearch-5.1.1/modules/reindex/httpcore-nio-4.4.5.jar" />
+      <element id="file-copy" path="$USER_HOME$/servers/elasticsearch-5.1.1/modules/reindex/reindex-5.1.1.jar" />
+      <element id="file-copy" path="$USER_HOME$/servers/elasticsearch-5.1.1/modules/reindex/rest-5.1.1.jar" />
+      <element id="file-copy" path="$USER_HOME$/servers/elasticsearch-5.1.1/modules/percolator/percolator-5.1.1.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/lib/transport-5.1.1.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/lib/logkit-1.2.jar" />
+      <element id="file-copy" path="$USER_HOME$/servers/apache-jmeter-3.0/lib/jorphan.jar" />
+      <element id="file-copy" path="$USER_HOME$/servers/apache-jmeter-3.0/lib/avalon-framework-4.1.4.jar" />
+      <element id="file-copy" path="$USER_HOME$/servers/apache-jmeter-3.0/lib/ext/ApacheJMeter_components.jar" />
+      <element id="file-copy" path="$USER_HOME$/servers/apache-jmeter-3.0/lib/ext/ApacheJMeter_core.jar" />
+      <element id="library" level="project" name="guava-18.0" />
     </root>
   </artifact>
 </component>

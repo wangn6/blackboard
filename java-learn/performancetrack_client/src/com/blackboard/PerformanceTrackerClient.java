@@ -15,10 +15,12 @@ import org.apache.jorphan.logging.LoggingManager;
 import org.apache.log.Logger;
 
 import org.elasticsearch.action.bulk.BulkRequestBuilder;
+import org.elasticsearch.action.support.WriteRequest;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
 
+import org.elasticsearch.transport.client.PreBuiltTransportClient;
 
 /**
  * Created by nwang on 01/11/2016.
@@ -103,10 +105,11 @@ public class PerformanceTrackerClient extends
         }
 
         try {
-            Settings.Builder builder = Settings.settingsBuilder();
+            Settings.Builder builder = Settings.builder();
             builder = builder.put("cluster.name", "pZY9pZ0");
             Settings settings = builder.build();
-            client = TransportClient.builder().settings(settings).build();
+            //client = TransportClient.builder().settings(settings).build();
+            client = new PreBuiltTransportClient(settings);
         } catch (Exception ex) {
             LOGGER.info("Exeption occured when initialize the test");
             LOGGER.info(ex.getMessage());
@@ -174,6 +177,12 @@ public class PerformanceTrackerClient extends
 
 
     public static void main(String[] args) {
+//        Settings.Builder builder = Settings.builder();
+//        builder = builder.put("cluster.name", "pZY9pZ0");
+//        Settings settings = builder.build();
+//        //client = TransportClient.builder().settings(settings).build();
+//        client = new PreBuiltTransportClient(settings);
+//        client.addTransportAddress(new InetSocketTransportAddress(new InetSocketAddress("10.75.60.76",9300)));
         Map<String, String> env = System.getenv();
         for (String envName : env.keySet()) {
             System.out.format("%s=%s%n",
@@ -328,7 +337,8 @@ public class PerformanceTrackerClient extends
                 }
                 try {
                     bulkBuilder.get();
-                    bulkBuilder.setRefresh(true);
+                    //bulkBuilder.setRefresh(true);
+                    bulkBuilder.setRefreshPolicy(WriteRequest.RefreshPolicy.IMMEDIATE);
                 } catch (Exception ex) {
                     LOGGER.info(ex.getMessage());
                 }finally {
@@ -346,7 +356,8 @@ public class PerformanceTrackerClient extends
             }
             try {
                 bulkBuilder.get();
-                bulkBuilder.setRefresh(true);
+                //bulkBuilder.setRefresh(true);
+                bulkBuilder.setRefreshPolicy(WriteRequest.RefreshPolicy.NONE);
             }catch (Exception ex)
             {
                 LOGGER.info(ex.getMessage());
