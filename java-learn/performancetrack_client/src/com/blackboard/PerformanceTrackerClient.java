@@ -44,7 +44,7 @@ public class PerformanceTrackerClient extends
     private static final String VAR_DELIMITER = "~";
     private static final String VALUE_DELIMITER = "=";
     private static final Logger LOGGER = LoggingManager.getLoggerForClass();
-    private static final String ELASTICSEARTCH_HOST = "nwang.local";
+    private static final String ELASTICSEARTCH_HOST = "10.75.60.76";
     private static final String DEFAULT_INDEX_NAME = "jmeter-elasticsearch";
     private static final String DEFAULT_DOC_TYPE = "SampleResult";
     @Override
@@ -63,7 +63,7 @@ public class PerformanceTrackerClient extends
 
         indexName = DEFAULT_INDEX_NAME;
         sampleType = DEFAULT_DOC_TYPE;
-        dateTimeAppendFormat = "-yyyy-MM-dd";
+        dateTimeAppendFormat = "-yyyy.MM.dd";
 
         String elasticsearchCluster = ELASTICSEARTCH_HOST + ":" + DEFAULT_ELASTICSEARCH_PORT;
         String[] servers = elasticsearchCluster.split(",");
@@ -104,7 +104,7 @@ public class PerformanceTrackerClient extends
 
         try {
             Settings.Builder builder = Settings.settingsBuilder();
-            builder = builder.put("cluster.name", "elasticsearch");
+            builder = builder.put("cluster.name", "pZY9pZ0");
             Settings settings = builder.build();
             client = TransportClient.builder().settings(settings).build();
         } catch (Exception ex) {
@@ -164,6 +164,7 @@ public class PerformanceTrackerClient extends
     public Arguments getDefaultParameters() {
         LOGGER.info("getDefaultParameters");
         Arguments arguments = new Arguments();
+        arguments.addArgument("ESHost", "localhost");
         arguments.addArgument("TestPlan", "${__TestPlanName}");
         arguments.addArgument("MBaasBuild", "");
         arguments.addArgument("B2Build", "");
