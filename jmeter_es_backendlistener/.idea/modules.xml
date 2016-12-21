@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/jmeter_es_backendlistener.iml" filepath="$PROJECT_DIR$/.idea/modules/jmeter_es_backendlistener.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/jmeter_es_backendlistener_main.iml" filepath="$PROJECT_DIR$/.idea/modules/jmeter_es_backendlistener_main.iml" group="jmeter_es_backendlistener" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/jmeter_es_backendlistener_test.iml" filepath="$PROJECT_DIR$/.idea/modules/jmeter_es_backendlistener_test.iml" group="jmeter_es_backendlistener" />
+    </modules>
+  </component>
+</project>

@@ -1,0 +1,17 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="jmeter_es_backendlistener:jar">
+    <output-path>$PROJECT_DIR$/build/classes/artifacts/jmeter_es_backendlistener_jar</output-path>
+    <root id="archive" name="jmeter_es_backendlistener.jar">
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/META-INF/MANIFEST.MF" />
+      </element>
+      <element id="library" level="project" name="Gradle: org.elasticsearch.plugin:transport-netty3-client:5.1.1" />
+      <element id="library" level="project" name="Gradle: org.elasticsearch.plugin:reindex-client:5.1.1" />
+      <element id="library" level="project" name="Gradle: org.elasticsearch.plugin:percolator-client:5.1.1" />
+      <element id="library" level="project" name="Gradle: org.elasticsearch.plugin:lang-mustache-client:5.1.1" />
+      <element id="library" level="project" name="Gradle: org.elasticsearch.client:transport:5.1.1" />
+      <element id="library" level="project" name="Gradle: org.elasticsearch:elasticsearch:5.1.1" />
+      <element id="library" level="project" name="Gradle: org.elasticsearch.plugin:transport-netty4-client:5.1.1" />
+    </root>
+  </artifact>
+</component>
