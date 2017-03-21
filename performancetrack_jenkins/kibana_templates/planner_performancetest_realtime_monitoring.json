@@ -1,0 +1,26 @@
+
+  {
+    "_id": "template-Planner_PerformanceTest_Realtime_Monitoring",
+    "_type": "dashboard",
+    "_source": {
+      "title": "Planner_PerformanceTest_Realtime_Monitoring",
+      "hits": 0,
+      "description": "",
+      "panelsJSON": "[{\"id\":\"Realtime_ResponseTime_LineChart\",\"type\":\"visualization\",\"panelIndex\":1,\"size_x\":12,\"size_y\":4,\"col\":1,\"row\":1},{\"id\":\"Realtime_ServerCPU_LineChart\",\"type\":\"visualization\",\"panelIndex\":2,\"size_x\":6,\"size_y\":4,\"col\":1,\"row\":9},{\"id\":\"Realtime_ServerMemory_LineChart\",\"type\":\"visualization\",\"panelIndex\":3,\"size_x\":6,\"size_y\":4,\"col\":7,\"row\":9},{\"id\":\"Realtime_SampleCount_LineChart\",\"type\":\"visualization\",\"panelIndex\":4,\"size_x\":6,\"size_y\":4,\"col\":7,\"row\":13},{\"id\":\"Realtime_LogsCount_LineChart\",\"type\":\"visualization\",\"panelIndex\":5,\"size_x\":6,\"size_y\":4,\"col\":1,\"row\":13},{\"id\":\"Realtime_Throughput_LineChart\",\"type\":\"visualization\",\"panelIndex\":6,\"size_x\":6,\"size_y\":4,\"col\":1,\"row\":5},{\"id\":\"Realtime_ActiveThreads_LineChart\",\"type\":\"visualization\",\"panelIndex\":7,\"size_x\":6,\"size_y\":4,\"col\":7,\"row\":5}]",
+      "optionsJSON": "{\"darkTheme\":false}",
+      "uiStateJSON": "{\"P-3\":{\"vis\":{\"legendOpen\":false}}}",
+      "version": 1,
+      "timeRestore": true,
+      "timeTo": "now",
+      "timeFrom": "now-4h/h",
+      "refreshInterval": {
+        "display": "10 Seconds",
+        "pause": false,
+        "section": 1,
+        "value": 10000
+      },
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"filter\":[{\"query\":{\"query_string\":{\"query\":\"*\",\"analyze_wildcard\":true}}}]}"
+      }
+    }
+  }

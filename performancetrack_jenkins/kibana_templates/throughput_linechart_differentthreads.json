@@ -1,0 +1,16 @@
+
+  {
+    "_id": "template-Throughput_LineChart_DifferentThreads",
+    "_type": "visualization",
+    "_source": {
+      "title": "VISTITLE",
+      "visState": "{\"title\":\"VISTITLE\",\"type\":\"line\",\"params\":{\"shareYAxis\":true,\"addTooltip\":true,\"addLegend\":true,\"legendPosition\":\"top\",\"showCircles\":true,\"smoothLines\":false,\"interpolate\":\"linear\",\"scale\":\"linear\",\"drawLinesBetweenPoints\":true,\"radiusRatio\":9,\"times\":[],\"addTimeMarker\":false,\"defaultYExtents\":false,\"setYExtents\":false,\"yAxis\":{}},\"aggs\":[{\"id\":\"1\",\"enabled\":true,\"type\":\"count\",\"schema\":\"metric\",\"params\":{}},{\"id\":\"2\",\"enabled\":true,\"type\":\"terms\",\"schema\":\"segment\",\"params\":{\"field\":\"EnvironmentVariables.num_threads.keyword\",\"size\":10,\"order\":\"asc\",\"orderBy\":\"_term\",\"customLabel\":\"Threads\"}},{\"id\":\"3\",\"enabled\":true,\"type\":\"terms\",\"schema\":\"group\",\"params\":{\"field\":\"SampleLabel\",\"size\":10,\"order\":\"asc\",\"orderBy\":\"_term\",\"customLabel\":\"API\"}}],\"listeners\":{}}",
+      "uiStateJSON": "{}",
+      "description": "",
+      "savedSearchId": "ecd3e265-695d-4eb6-8541-0a18e913b4a7-1488258981",
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"filter\":[]}"
+      }
+    }
+  }

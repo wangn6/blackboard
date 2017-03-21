@@ -1,0 +1,15 @@
+
+  {
+    "_id": "vis_id",
+    "_type": "visualization",
+    "_source": {
+      "title": "TIMELIONTITLE",
+      "visState": "{\"title\":\"TIMELIONTITLE\",\"type\":\"timelion\",\"params\":{\"expression\":\".es(index='jmeter-elasticsearch-*', timefield='timestamp', split='SampleLabel:10', metric='avg:ResponseTime', q='ErrorCount:0 AND ResponseCode:200 AND QUERYSTRING').label(regex='.* SampleLabel:(.*) > .*', label='$1'), .static(value=1000, label='Acceptable Max Response Time')\",\"interval\":\"auto\"},\"aggs\":[],\"listeners\":{}}",
+      "uiStateJSON": "{}",
+      "description": "",
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"query\":{\"query_string\":{\"analyze_wildcard\":true,\"query\":\"*\"}},\"filter\":[]}"
+      }
+    }
+  }

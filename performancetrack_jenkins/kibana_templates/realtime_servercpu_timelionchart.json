@@ -1,0 +1,15 @@
+
+  {
+    "_id": "template-Realtime_ServerCPU_TimelionChart",
+    "_type": "visualization",
+    "_source": {
+      "title": "TIMELIONTITLE",
+      "visState": "{\"type\":\"timelion\",\"title\":\"TIMELIONTITLE\",\"params\":{\"expression\":\".es(index='metricbeat-*', metric='avg:system.cpu.user.pct', q='QUERYSTRING', timefield='@timestamp'), .es(index='metricbeat-*', metric='avg:system.cpu.system.pct', q='QUERYSTRING', timefield='@timestamp')\",\"interval\":\"15s\"}}",
+      "uiStateJSON": "{}",
+      "description": "",
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{}"
+      }
+    }
+  }

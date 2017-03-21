@@ -1,0 +1,15 @@
+
+  {
+    "_id": "vis_id",
+    "_type": "visualization",
+    "_source": {
+      "title": "TIMELIONTITLE",
+      "visState": "{\"title\":\"TIMELIONTITLE\",\"type\":\"timelion\",\"params\":{\"expression\":\".es(index='filebeat-*', split='log_name:10', q='log_level:ERROR',metric='count')\",\"interval\":\"auto\"},\"aggs\":[],\"listeners\":{}}",
+      "uiStateJSON": "{}",
+      "description": "",
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"query\":{\"query_string\":{\"query\":\"*\",\"analyze_wildcard\":true}},\"filter\":[]}"
+      }
+    }
+  }

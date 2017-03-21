@@ -1,0 +1,15 @@
+
+  {
+    "_id": "vis_id",
+    "_type": "visualization",
+    "_source": {
+      "title": "TIMELIONTITLE",
+      "visState": "{\"title\":\"TIMELIONTITLE\",\"type\":\"timelion\",\"params\":{\"expression\":\"(.es(index='jmeter-elasticsearch-*', timefield='timestamp', metric='count', q='ErrorCount:0 AND QUERYSTRING')).divide(.es(index='jmeter-elasticsearch-*', timefield='timestamp', metric='count', q='QUERYSTRING')).multiply(100).label(regex='.* SampleLabel:(.*) > .*', label='$1')\",\"interval\":\"auto\"},\"aggs\":[],\"listeners\":{}}",
+      "uiStateJSON": "{}",
+      "description": "",
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"query\":{\"query_string\":{\"analyze_wildcard\":true,\"query\":\"*\"}},\"filter\":[]}"
+      }
+    }
+  }

@@ -1,0 +1,16 @@
+
+  {
+    "_id": "vis_id",
+    "_type": "visualization",
+    "_source": {
+      "title": "VISTITLE",
+      "visState": "{\"title\":\"VISTITLE\",\"type\":\"metric\",\"params\":{\"handleNoResults\":true,\"fontSize\":60},\"aggs\":[{\"id\":\"1\",\"enabled\":true,\"type\":\"percentile_ranks\",\"schema\":\"metric\",\"params\":{\"field\":\"ErrorCount\",\"values\":[0],\"customLabel\":\"Pass Rate\"}}],\"listeners\":{}}",
+      "uiStateJSON": "{}",
+      "description": "",
+      "savedSearchId": "dic_id",
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"filter\":[]}"
+      }
+    }
+  }

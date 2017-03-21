@@ -1,0 +1,15 @@
+
+  {
+    "_id": "vis_id",
+    "_type": "visualization",
+    "_source": {
+      "title": "VISTITLE",
+      "visState": "{\"title\":\"VISTITLE\",\"type\":\"markdown\",\"params\":{\"markdown\":\"### Planner Performance Testing\\n------\\n\\nThis is the test report for the planner backend, you can get the basic charts and tables below. Also you can get the server status during the testing and the historical results analysis. Any further requirement, please contact neil.wang@blackboard.com\\n\\n\"},\"aggs\":[],\"listeners\":{}}",
+      "uiStateJSON": "{}",
+      "description": "",
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"query\":{\"query_string\":{\"analyze_wildcard\":true,\"query\":\"*\"}},\"filter\":[]}"
+      }
+    }
+  }

@@ -1,0 +1,38 @@
+<html>
+	<head>
+		<title>The Performance Test Report</title>
+		<link rel="stylesheet" type="text/css" href="report.css">
+	</head>
+	<body>
+		<h1>Performance Test Report</h1>
+		<div id='content'>
+			<table>
+				<thead>
+					<tr>
+						<th>Test Plan</th>
+						<th>Start Time</th>
+						<th>End Time</th>
+						<th>Test Report</th>
+					</tr>
+				</thead>
+				<tbody>
+					<% @results.each do |result| %>
+					<tr>
+						<td><%= result.test_plan %></td>
+						<td><%= result.start_time %></td>
+						<td><%= result.end_time %></td>
+						<td>
+							<% (0 ... result.report_names.length).each do |index| %>
+								<div class='link'>
+									<a href='<%= result.report_links[index] %>'><%= result.report_names[index] %></a>
+								</div>
+							<% end %>
+						</td>
+					</tr>
+					<% end %>
+				</tbody>
+				<tfoot></tfoot>
+			</table>
+		</div>
+	</body>
+</html>

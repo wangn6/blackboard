@@ -1,0 +1,15 @@
+
+  {
+    "_id": "Details_Info_About_Test",
+    "_type": "visualization",
+    "_source": {
+      "title": "Details_Info_About_Test",
+      "visState": "{\"title\":\"Details_Info_About_Test\",\"type\":\"markdown\",\"params\":{\"markdown\":\"\"},\"aggs\":[],\"listeners\":{}}",
+      "uiStateJSON": "{}",
+      "description": "",
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"query\":{\"query_string\":{\"query\":\"*\",\"analyze_wildcard\":true}},\"filter\":[]}"
+      }
+    }
+  }

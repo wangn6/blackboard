@@ -1,0 +1,26 @@
+
+  {
+    "_id": "template_neil",
+    "_type": "dashboard",
+    "_source": {
+      "title": "template_neil",
+      "hits": 0,
+      "description": "",
+      "panelsJSON": "[{\"col\":1,\"id\":\"LogsErrors_TimelionChart\",\"panelIndex\":1,\"row\":26,\"size_x\":10,\"size_y\":5,\"type\":\"visualization\"},{\"col\":5,\"id\":\"Stress_Test_Result\",\"panelIndex\":2,\"row\":1,\"size_x\":4,\"size_y\":5,\"type\":\"visualization\"},{\"col\":1,\"id\":\"PassRate_TimelionChart\",\"panelIndex\":3,\"row\":11,\"size_x\":10,\"size_y\":5,\"type\":\"visualization\"},{\"col\":9,\"id\":\"Details_Info_About_Test\",\"panelIndex\":4,\"row\":1,\"size_x\":4,\"size_y\":5,\"type\":\"visualization\"},{\"col\":1,\"id\":\"ResponseTime_Table\",\"panelIndex\":5,\"row\":31,\"size_x\":6,\"size_y\":10,\"type\":\"visualization\"},{\"col\":1,\"id\":\"ResponseTime_TimelionChart\",\"panelIndex\":6,\"row\":6,\"size_x\":10,\"size_y\":5,\"type\":\"visualization\"},{\"col\":7,\"id\":\"ThroughPut_Table\",\"panelIndex\":7,\"row\":31,\"size_x\":6,\"size_y\":10,\"type\":\"visualization\"},{\"col\":1,\"id\":\"Navigator_MarkdownPage\",\"panelIndex\":8,\"row\":1,\"size_x\":4,\"size_y\":5,\"type\":\"visualization\"},{\"col\":1,\"id\":\"Realtime_ServerCPU_LineChart\",\"panelIndex\":9,\"row\":16,\"size_x\":10,\"size_y\":5,\"type\":\"visualization\"},{\"col\":1,\"id\":\"Realtime_ServerMemory_LineChart\",\"panelIndex\":10,\"row\":21,\"size_x\":10,\"size_y\":5,\"type\":\"visualization\"},{\"id\":\"Introduction_4_Average_Response_Time_Chart\",\"type\":\"visualization\",\"panelIndex\":11,\"size_x\":2,\"size_y\":5,\"col\":11,\"row\":6},{\"id\":\"Introduction_4_PassRate\",\"type\":\"visualization\",\"panelIndex\":12,\"size_x\":2,\"size_y\":5,\"col\":11,\"row\":11},{\"id\":\"Introduction_4_ServerCPU\",\"type\":\"visualization\",\"panelIndex\":13,\"size_x\":2,\"size_y\":5,\"col\":11,\"row\":16},{\"id\":\"Introduction_4_ServerLogs\",\"type\":\"visualization\",\"panelIndex\":14,\"size_x\":2,\"size_y\":5,\"col\":11,\"row\":26},{\"id\":\"Introduction_4_ServerMemory\",\"type\":\"visualization\",\"panelIndex\":15,\"size_x\":2,\"size_y\":5,\"col\":11,\"row\":21}]",
+      "optionsJSON": "{\"darkTheme\":false}",
+      "uiStateJSON": "{\"P-5\":{\"vis\":{\"params\":{\"sort\":{\"columnIndex\":null,\"direction\":null}}}},\"P-7\":{\"vis\":{\"params\":{\"sort\":{\"columnIndex\":null,\"direction\":null}}}}}",
+      "version": 1,
+      "timeRestore": true,
+      "timeTo": "2017-03-08T03:25:55.000Z",
+      "timeFrom": "2017-03-08T03:22:59.000Z",
+      "refreshInterval": {
+        "display": "Off",
+        "pause": false,
+        "section": 0,
+        "value": 0
+      },
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"filter\":[{\"query\":{\"query_string\":{\"query\":\"*\",\"analyze_wildcard\":true}}}]}"
+      }
+    }
+  }

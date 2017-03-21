@@ -1,0 +1,16 @@
+
+  {
+    "_id": "vis_id",
+    "_type": "visualization",
+    "_source": {
+      "title": "VISTITLE",
+      "visState": "{\"aggs\":[{\"enabled\":true,\"id\":\"1\",\"params\":{\"customLabel\":\"Average Response Time (MS)\",\"field\":\"ResponseTime\"},\"schema\":\"metric\",\"type\":\"avg\"},{\"enabled\":true,\"id\":\"2\",\"params\":{\"customLabel\":\"Max Response Time (MS)\",\"field\":\"ResponseTime\"},\"schema\":\"metric\",\"type\":\"max\"},{\"enabled\":true,\"id\":\"3\",\"params\":{\"customLabel\":\"Min Response Time (MS)\",\"field\":\"ResponseTime\"},\"schema\":\"metric\",\"type\":\"min\"},{\"enabled\":true,\"id\":\"4\",\"params\":{\"customLabel\":\"Median Response Time (MS)\",\"field\":\"ResponseTime\",\"percents\":[50]},\"schema\":\"metric\",\"type\":\"median\"},{\"enabled\":true,\"id\":\"5\",\"params\":{\"field\":\"SampleLabel\",\"order\":\"desc\",\"orderBy\":\"1\",\"size\":5},\"schema\":\"bucket\",\"type\":\"terms\"},{\"enabled\":true,\"id\":\"6\",\"params\":{\"customLabel\":\"\",\"field\":\"EnvironmentVariables.num_threads.keyword\",\"order\":\"asc\",\"orderBy\":\"_term\",\"row\":true,\"size\":20},\"schema\":\"split\",\"type\":\"terms\"}],\"listeners\":{},\"params\":{\"perPage\":10,\"showMeticsAtAllLevels\":false,\"showPartialRows\":false,\"showTotal\":false,\"sort\":{\"columnIndex\":null,\"direction\":null},\"totalFunc\":\"sum\"},\"title\":\"VISTITLE\",\"type\":\"table\"}",
+      "uiStateJSON": "{\"vis\":{\"params\":{\"sort\":{\"columnIndex\":null,\"direction\":null}}}}",
+      "description": "",
+      "savedSearchId": "dis_id",
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"filter\":[]}"
+      }
+    }
+  }

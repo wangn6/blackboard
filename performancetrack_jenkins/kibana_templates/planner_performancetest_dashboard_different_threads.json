@@ -1,0 +1,26 @@
+
+  {
+    "_id": "template-Planner_PerformanceTest_Dashboard_Different_Threads",
+    "_type": "dashboard",
+    "_source": {
+      "title": "VISTITLE",
+      "hits": 0,
+      "description": "",
+      "panelsJSON": "[{\"id\":\"ResponseTime_LineChart_DifferentThreads\",\"type\":\"visualization\",\"panelIndex\":1,\"size_x\":12,\"size_y\":5,\"col\":1,\"row\":1},{\"id\":\"Throughput_LineChart_DifferentThreads\",\"type\":\"visualization\",\"panelIndex\":2,\"size_x\":12,\"size_y\":5,\"col\":1,\"row\":6}]",
+      "optionsJSON": "{\"darkTheme\":false}",
+      "uiStateJSON": "{}",
+      "version": 1,
+      "timeRestore": true,
+      "timeTo": "now",
+      "timeFrom": "now/d",
+      "refreshInterval": {
+        "display": "Off",
+        "pause": false,
+        "section": 0,
+        "value": 0
+      },
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"filter\":[{\"query\":{\"query_string\":{\"query\":\"*\",\"analyze_wildcard\":true}}}]}"
+      }
+    }
+  }

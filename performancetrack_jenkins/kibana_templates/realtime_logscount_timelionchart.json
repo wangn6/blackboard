@@ -1,0 +1,15 @@
+
+  {
+    "_id": "template-Realtime_LogsCount_TimelionChart",
+    "_type": "visualization",
+    "_source": {
+      "title": "TIMELIONTITLE",
+      "visState": "{\"title\":\"TIMELIONTITLE\",\"type\":\"timelion\",\"params\":{\"expression\":\".es(index='filebeat-*', metric='count', q='QUERYSTRING', timefield='@timestamp')\",\"interval\":\"5s\"},\"aggs\":[],\"listeners\":{}}",
+      "uiStateJSON": "{}",
+      "description": "",
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"query\":{\"query_string\":{\"query\":\"*\",\"analyze_wildcard\":true}},\"filter\":[]}"
+      }
+    }
+  }

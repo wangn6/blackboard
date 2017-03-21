@@ -1,0 +1,15 @@
+
+  {
+    "_id": "template-Realtime_SampleCount_TimelionChart",
+    "_type": "visualization",
+    "_source": {
+      "title": "TIMELIONTITLE",
+      "visState": "{\"type\":\"timelion\",\"title\":\"TIMELIONTITLE\",\"params\":{\"expression\":\".es(index='jmeter-elasticsearch-*', metric='count', q='QUERYSTRING', timefield='timestamp')\",\"interval\":\"5s\"}}",
+      "uiStateJSON": "{}",
+      "description": "",
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{}"
+      }
+    }
+  }
