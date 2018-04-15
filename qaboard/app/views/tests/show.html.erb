@@ -1,0 +1,59 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Task name:</strong>
+  <%= @test.task_name %>
+</p>
+
+<p>
+  <strong>Build name:</strong>
+  <%= @test.build_name %>
+</p>
+
+<p>
+  <strong>Class name:</strong>
+  <%= @test.class_name %>
+</p>
+
+<p>
+  <strong>Test name:</strong>
+  <%= @test.test_name %>
+</p>
+
+<p>
+  <strong>Create time:</strong>
+  <%= @test.create_time %>
+</p>
+
+<p>
+  <strong>Duration:</strong>
+  <%= @test.duration %>
+</p>
+
+<p>
+  <strong>Start time:</strong>
+  <%= @test.start_time %>
+</p>
+
+<p>
+  <strong>End time:</strong>
+  <%= @test.end_time %>
+</p>
+
+<p>
+  <strong>Failure:</strong>
+  <%= @test.failure %>
+</p>
+
+<p>
+  <strong>Pass:</strong>
+  <%= @test.pass %>
+</p>
+
+<p>
+  <strong>Started:</strong>
+  <%= @test.started %>
+</p>
+
+<%= link_to 'Edit', edit_test_path(@test) %> |
+<%= link_to 'Back', tests_path %>

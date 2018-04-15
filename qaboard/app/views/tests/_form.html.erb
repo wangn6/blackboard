@@ -1,0 +1,72 @@
+<%= form_with(model: test, local: true) do |form| %>
+  <% if test.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(test.errors.count, "error") %> prohibited this test from being saved:</h2>
+
+      <ul>
+      <% test.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :task_name %>
+    <%= form.text_area :task_name, id: :test_task_name %>
+  </div>
+
+  <div class="field">
+    <%= form.label :build_name %>
+    <%= form.text_area :build_name, id: :test_build_name %>
+  </div>
+
+  <div class="field">
+    <%= form.label :class_name %>
+    <%= form.text_area :class_name, id: :test_class_name %>
+  </div>
+
+  <div class="field">
+    <%= form.label :test_name %>
+    <%= form.text_area :test_name, id: :test_test_name %>
+  </div>
+
+  <div class="field">
+    <%= form.label :create_time %>
+    <%= form.date_select :create_time, id: :test_create_time %>
+  </div>
+
+  <div class="field">
+    <%= form.label :duration %>
+    <%= form.text_field :duration, id: :test_duration %>
+  </div>
+
+  <div class="field">
+    <%= form.label :start_time %>
+    <%= form.date_select :start_time, id: :test_start_time %>
+  </div>
+
+  <div class="field">
+    <%= form.label :end_time %>
+    <%= form.date_select :end_time, id: :test_end_time %>
+  </div>
+
+  <div class="field">
+    <%= form.label :failure %>
+    <%= form.number_field :failure, id: :test_failure %>
+  </div>
+
+  <div class="field">
+    <%= form.label :pass %>
+    <%= form.number_field :pass, id: :test_pass %>
+  </div>
+
+  <div class="field">
+    <%= form.label :started %>
+    <%= form.number_field :started, id: :test_started %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

@@ -1,0 +1,27 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  task_name: MyText
+  build_name: MyText
+  class_name: MyText
+  test_name: MyText
+  create_time: 2017-09-11
+  duration: 1.5
+  start_time: 2017-09-11
+  end_time: 2017-09-11
+  failure: 1
+  pass: 1
+  started: 1
+
+two:
+  task_name: MyText
+  build_name: MyText
+  class_name: MyText
+  test_name: MyText
+  create_time: 2017-09-11
+  duration: 1.5
+  start_time: 2017-09-11
+  end_time: 2017-09-11
+  failure: 1
+  pass: 1
+  started: 1
